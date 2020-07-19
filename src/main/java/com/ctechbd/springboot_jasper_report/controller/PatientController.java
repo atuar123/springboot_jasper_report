@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -19,22 +20,29 @@ public class PatientController {
     }
 
     @GetMapping("/")
-    public String home( Model model){
+    public String home(Model model) {
         model.addAttribute("patients", patientService.getAll());
         return "index";
     }
+
     @GetMapping(value = "/patient")
-    public String patient(Patient patient){
+    public String patient(Patient patient) {
         return "add_patient";
     }
 
     @PostMapping(value = "/savePatient")
-    public String addPatient(@Valid Patient patient, BindingResult result, Model model){
-        if(result.hasErrors()){
+    public String addPatient(@Valid Patient patient, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             return "add_patient";
         }
         patientService.save(patient);
         model.addAttribute("patients", patientService.getAll());
         return "index";
+    }
+
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Patient patient = patientService.getOne(id);
+
+        return "update_patient";
     }
 }
