@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+<form th:action="@{/savePatient}" th:object="${patient}" method="post">
+    <center><h3>Add Patient </h3></center>
+    <input type="hidden" th:field="*{id}">
+    <div class="form-group row">
+        <label class="col-md-4 col-form-label text-md-right">Patient Name</label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="name" th:value="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-4 col-form-label text-md-right"> Age </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="age" th:value="*{age}">
+            <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-4 col-form-label text-md-right"> Gender </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="gender" th:value="*{gender}">
+            <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-4 col-form-label text-md-right"> Mobile No. </label>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="mobileNo" th:value="*{mobileNo}">
+            <span th:if="${#fields.hasErrors('mobileNo')}" th:errors="*{mobileNo}"></span>
+        </div>
+    </div>
+    <div class="col-md-6 offset-md-4 ">
+        <button type="submit" class="btn btn-primary" th:if="${id}">
+            Update
+        </button>
+        <button type="submit" class="btn btn-primary" th:if="not ${id}">
+            Save
+        </button>
+    </div>
+</form>
+</div>
+</body>
+</html>
