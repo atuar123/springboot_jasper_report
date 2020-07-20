@@ -6,10 +6,14 @@ import com.ctechbd.springboot_jasper_report.service.ReportService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -47,5 +51,20 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Patient> getAll() {
         return patientRepository.findAll();
+    }
+
+    @Override
+    public HttpEntity<byte[]> getPdfResponse(HttpServletResponse response) throws FileNotFoundException, JRException {
+        File file = ResourceUtils.getFile("classpath:customer.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getAll());
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "Admin");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        byte [] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        response.setHeader("Content-Description", "attachment; filename=abc.pdf");
+        return new HttpEntity<>(pdfBytes, headers);
     }
 }
