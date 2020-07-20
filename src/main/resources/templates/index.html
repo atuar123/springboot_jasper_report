@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Patient List</title>
@@ -22,6 +22,7 @@
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Mobile No.</th>
+                <th>Reg. Date</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -33,6 +34,7 @@
                 <td th:text="${patient.age}"></td>
                 <td th:text="${patient.gender}"></td>
                 <td th:text="${patient.mobileNo}"></td>
+                <td th:text="${patient.registerDate}"></td>
                 <td><a th:href="@{/edit/{id}(id=${patient.id})}">Edit</a></td>
                 <td><a th:href="@{/delete/{id}(id=${patient.id})}">Delete</a></td>
             </tr>

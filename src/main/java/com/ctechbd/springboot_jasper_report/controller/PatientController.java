@@ -5,9 +5,7 @@ import com.ctechbd.springboot_jasper_report.service.PatientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -40,9 +38,29 @@ public class PatientController {
         return "index";
     }
 
+    @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Patient patient = patientService.getOne(id);
-
+        Patient patient = patientService.get(id);
+        model.addAttribute("patient", patient);
         return "update_patient";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(@PathVariable("id") long id, @Valid Patient patient,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            patient.setId(id);
+            return "update_patient";
+        }
+        patientService.save(patient);
+        model.addAttribute("patients", patientService.getAll());
+        return "index";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deletePatient(@PathVariable("id") long id, Model model){
+        patientService.delete(id);
+        model.addAttribute("patients", patientService.getAll());
+        return "index";
     }
 }

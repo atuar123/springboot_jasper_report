@@ -6,6 +6,7 @@ import com.ctechbd.springboot_jasper_report.service.PatientService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -26,13 +27,24 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient getOne(Long id) {
+    public Patient get(Long id) {
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+        if (patientOptional.isPresent() && patientOptional.get() != null){
+            Patient patient = patientOptional.get();
+            return patient;
+        }
         return null;
     }
 
     @Override
     public String delete(Long id) {
-        return null;
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+        if (patientOptional.isPresent() && patientOptional.get() != null){
+            Patient patient = patientOptional.get();
+            patientRepository.delete(patient);
+            return "deletedSuccessfully";
+        }
+        return "recordNotFound";
     }
 
     @Override
