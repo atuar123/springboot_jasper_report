@@ -16,6 +16,7 @@ import org.springframework.util.ResourceUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,13 +55,33 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public List<Patient> findByDate(Date registerStart, Date registerEnd) {
+        return patientRepository.findAllByRegisterDateBetween(registerStart,registerEnd);
+    }
+
+    @Override
     public HttpEntity<byte[]> getPdfResponse(HttpServletResponse response) throws FileNotFoundException, JRException {
-        File file = ResourceUtils.getFile("classpath:customer.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        File fileName = ResourceUtils.getFile("classpath:customer.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(fileName.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getAll());
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "Admin");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        byte [] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        response.setHeader("Content-Description", "attachment; filename=abc.pdf");
+        return new HttpEntity<>(pdfBytes, headers);
+    }
+
+    @Override
+    public HttpEntity<byte[]> getPdfResponseWithParams(HttpServletResponse response, Date startDate, Date endDate) throws FileNotFoundException, JRException {
+        File file = ResourceUtils.getFile("classpath:customer.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(findByDate(startDate,endDate));
+        Map<String, Object> parameter = new HashMap<>();
+        parameter.put("createdBy", "Admin");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, dataSource);
         byte [] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

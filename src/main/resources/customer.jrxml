@@ -103,23 +103,26 @@
         </band>
     </detail>
     <columnFooter>
-        <band height="45" splitType="Stretch">
-            <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-        </band>
+        <band/>
     </columnFooter>
     <pageFooter>
-        <band height="54" splitType="Stretch"/>
-    </pageFooter>
-    <summary>
-        <band height="42" splitType="Stretch">
-            <textField pattern="MMMMM dd, yyyy">
-                <reportElement x="10" y="0" width="100" height="30" uuid="eb1479d7-630d-42b8-9f97-940b14dfe704"/>
-                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+        <band height="17">
+            <textField>
+                <reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="922a74d4-521c-40d5-a8e2-4ae908bd8eea"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
             </textField>
             <textField evaluationTime="Report">
-                <reportElement x="290" y="0" width="100" height="30" uuid="fe5f77a9-d785-4fbf-862f-f34566368237"/>
-                <textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+                <reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="5282238e-0957-4f9f-9271-5875eea4c2ff"/>
+                <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField pattern="EEEEE dd MMMMM yyyy">
+                <reportElement x="0" y="4" width="100" height="13" uuid="6fc70acc-4099-4a80-9ea3-a297ae9d168f"/>
+                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
         </band>
+    </pageFooter>
+    <summary>
+        <band/>
     </summary>
 </jasperReport>

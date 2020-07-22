@@ -10,10 +10,31 @@
 </head>
 <body>
 <div class="container">
-    <h1>     </h1>
-    <div style="text-align: center;">
-        <a th:href="@{/reportPdf}" target="_blank" type="submit" class="btn btn-primary">Generate Report</a>
-    </div>
+    <form th:action="@{/reportPdf}" method="get">
+        <div style="text-align: center;">
+            <p>            </p>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">Start Date: </label>
+                <div class="col-md-4">
+                    <label>
+                        <input class="form-control" type="date" name="startDate"/>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-md-right">End Date: </label>
+                <div class="col-md-4">
+                    <label>
+                        <input class="form-control" type="date" name="endDate"/>
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" >
+                Generate Report
+            </button>
+        </div>
+    </form>
+
 </div>
 </body>
 </html>
