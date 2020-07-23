@@ -2,6 +2,7 @@ package com.ctechbd.springboot_jasper_report.controller;
 
 import com.ctechbd.springboot_jasper_report.service.ReportService;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.swing.JRViewer;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Controller
@@ -40,17 +44,32 @@ public class ReportController {
 //    }
 
     @GetMapping(value = "/reportPdf")
-    public HttpEntity<byte[]> getPdfWitDate(HttpServletResponse response, @RequestParam("startDate") String startDate,
+    public HttpEntity<byte[]> getPdfWithDate(HttpServletResponse response, @RequestParam("startDate") String startDate,
                                             @RequestParam("endDate") String endDate) throws FileNotFoundException, JRException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String stDate= startDate + " 00:00:00";
+        String edDate= endDate + " 23:59:59";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date startReportDate = null, endReportDate = null;
         try {
-            startReportDate = sdf.parse(startDate);
-            endReportDate = sdf.parse(endDate);
+            startReportDate = sdf.parse(stDate);
+            endReportDate = sdf.parse(edDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        //System.out.println(startReportDate);
+//        LocalDate startDatePart, endDatePart;
+//        LocalTime startTimePart, endTimePart;
+//        LocalDateTime startReportDate, endReportDate;
+//
+//        startDatePart = LocalDate.parse(startDate);
+//        endDatePart = LocalDate.parse(endDate);
+//        startTimePart = LocalTime.parse("00:00:00");
+//        endTimePart = LocalTime.parse("23:59:59");
+//        startReportDate = LocalDateTime.of(startDatePart, startTimePart);
+//        endReportDate = LocalDateTime.of(endDatePart, endTimePart);
+//        System.out.println(startReportDate);
+//        System.out.println(endReportDate);
         return reportService.getPdfResponseWithParams(response, startReportDate, endReportDate);
     }
 }

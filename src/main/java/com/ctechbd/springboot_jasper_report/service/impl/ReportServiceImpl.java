@@ -56,7 +56,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<Patient> findByDate(Date registerStart, Date registerEnd) {
-        return patientRepository.findAllByRegisterDateBetween(registerStart,registerEnd);
+        return patientRepository.findByRegisterDateBetween(registerStart,registerEnd);
     }
 
     @Override
@@ -88,4 +88,5 @@ public class ReportServiceImpl implements ReportService {
         response.setHeader("Content-Description", "attachment; filename=abc.pdf");
         return new HttpEntity<>(pdfBytes, headers);
     }
+
 }

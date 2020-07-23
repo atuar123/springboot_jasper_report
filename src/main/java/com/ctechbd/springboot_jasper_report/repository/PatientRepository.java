@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
-    List<Patient> findAllByRegisterDateBetween(Date startDate, Date endDate);
+    List<Patient> findByRegisterDateBetween(Date startDate, Date endDate);
 }
 

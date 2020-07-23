@@ -2,6 +2,7 @@ package com.ctechbd.springboot_jasper_report.service;
 
 import com.ctechbd.springboot_jasper_report.entities.Patient;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.http.HttpEntity;
 
 import javax.servlet.http.HttpServletResponse;
