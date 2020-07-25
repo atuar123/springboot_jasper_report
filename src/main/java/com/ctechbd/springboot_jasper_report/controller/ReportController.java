@@ -57,19 +57,6 @@ public class ReportController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //System.out.println(startReportDate);
-//        LocalDate startDatePart, endDatePart;
-//        LocalTime startTimePart, endTimePart;
-//        LocalDateTime startReportDate, endReportDate;
-//
-//        startDatePart = LocalDate.parse(startDate);
-//        endDatePart = LocalDate.parse(endDate);
-//        startTimePart = LocalTime.parse("00:00:00");
-//        endTimePart = LocalTime.parse("23:59:59");
-//        startReportDate = LocalDateTime.of(startDatePart, startTimePart);
-//        endReportDate = LocalDateTime.of(endDatePart, endTimePart);
-//        System.out.println(startReportDate);
-//        System.out.println(endReportDate);
         return reportService.getPdfResponseWithParams(response, startReportDate, endReportDate);
     }
 }
