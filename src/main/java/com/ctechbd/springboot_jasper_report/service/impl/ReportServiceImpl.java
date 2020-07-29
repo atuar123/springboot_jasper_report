@@ -6,16 +6,19 @@ import com.ctechbd.springboot_jasper_report.service.ReportService;
 import net.sf.jasperreports.chrome.BrowserService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -88,5 +91,6 @@ public class ReportServiceImpl implements ReportService {
         response.setHeader("Content-Description", "attachment; filename=abc.pdf");
         return new HttpEntity<>(pdfBytes, headers);
     }
+
 
 }
