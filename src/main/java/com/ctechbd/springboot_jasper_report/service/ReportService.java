@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ReportService {
     List<Patient> findByDate(Date registerStart, Date registerEnd);
     HttpEntity<byte[]> getPdfResponse(HttpServletResponse response) throws FileNotFoundException, JRException;
     HttpEntity<byte[]> getPdfResponseWithParams(HttpServletResponse response, Date startDate, Date endDate) throws FileNotFoundException, JRException;
+
+    void generateReport(HttpServletResponse response, String format) throws IOException, JRException;
 }

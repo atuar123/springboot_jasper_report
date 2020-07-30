@@ -80,5 +80,9 @@ public class ReportController {
         final OutputStream outStream = response.getOutputStream();
         JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
     }
+    @RequestMapping(value = "/generate/{format}", method = RequestMethod.GET)
+    public void generateReport(HttpServletResponse response, @PathVariable String format) throws IOException, JRException {
+        reportService.generateReport(response,format);
+    }
 
 }
